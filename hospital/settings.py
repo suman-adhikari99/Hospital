@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 #https://studygyaan.com/django/how-to-add-social-login-to-django
+#https://github.com/settings/applications/new
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -50,6 +51,9 @@ INSTALLED_APPS = [
     
 ]
 SITE_ID = 1
+
+SOCIAL_AUTH_GITHUB_KEY = '90005afb0b3dc6ff05b9'
+SOCIAL_AUTH_GITHUB_SECRET = '27d0bb688e8794a1a8b6d7d79d597634525495d1'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -80,8 +84,7 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
 
-SOCIAL_AUTH_FACEBOOK_KEY = '310399954081044'  # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = '2017c1bf53b6589e58e6fc1f79116b60'  # App Secret
+
 
 TEMPLATES = [
     {
@@ -112,8 +115,8 @@ WSGI_APPLICATION = 'hospital.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':  'postgres',
-        'USER': 'postgres',
+        'NAME':  'tes1t',
+        'USER': 'suman',
         'PASSWORD': 'suman147',
         'HOST': '127.0.0.1',
         'PORT': '5432',
@@ -158,8 +161,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# added manually
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#added for email
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'adhikarisuman372@gmail.com'
+EMAIL_HOST_PASSWORD = 'Susma@147'

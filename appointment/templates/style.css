@@ -1,0 +1,47 @@
+.slider {
+    z-index:1;
+    margin-top:200px;
+    position:relative; 
+}
+    
+.carousel-inner {
+    transform: skewy(-190deg);
+    height:500px;}
+    
+.carousel-inner img {
+    transform: skewy(13deg);
+    height: 1000px !important;
+    margin-top: -191px;}
+    
+.slider-2 {
+    position:absolute;
+    transform:rotate(-15deg);
+    z-index:-2;
+    width:970px;
+    top:115px;
+    height:650px !important;
+    background-color:#e2e2e2;
+    margin-left:30px;
+    transform: skewy(-190deg);}
+    
+.carousel-indicators {
+  bottom:-90px;
+  transform: rotate(-10deg );}
+  
+.carousel-indicators li {
+     border-color:#152b46;}
+     
+.carousel-indicators .active {
+    background-color:#152b46;}
+
+    .carousel-caption {
+        position: absolute;
+         right: 0%; 
+        bottom: 20px;
+        left: 0%; 
+        z-index: 10;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        color: #fff;
+        text-align: left; 
+    }

@@ -13,6 +13,17 @@ class Appointment(models.Model):
     patient_name = models.CharField(max_length=120)
     doctor= models.CharField(max_length=120)
     time = models.TimeField()
+    def __str__(self):
+        return '{} ({})'.format(self.user,self.doctor)
+
+class Doctor(models.Model):
+    name =models.CharField(max_length=120)
+    address=models.CharField(max_length=33)
+    departments = [('Cardiology', 'Cardiology'), ('Dermatology','Dermatology'), ('Immunology','Immunology'), ('Anesthesiology','Anesthesiology'), ('Emergency', 'Emergency')]
+    department=models.CharField(max_length=23,choices=departments, default='cardiologist')
+    status=models.BooleanField(default=False)
+    def __str__(self):
+        return '{} ({})'.format(self.name,self.department)
 
 
 
