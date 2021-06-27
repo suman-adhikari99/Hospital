@@ -1,9 +1,9 @@
-from appointment.models import Appointment, Doctor
+from appointment.models import Appointment, Doctor, Profile
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
-from .forms import  AppointmentForm, NewUserForm
+from .forms import  AppointmentForm, NewUserForm, UserUpdateForm, ProfileUpdateForm, UserUpdateForm
 
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import TemplateView
@@ -15,9 +15,23 @@ from django.contrib import messages
 
 # Create your views here.
 
-class HomeView(LoginRequiredMixin, TemplateView):
-    template_name = "home.html" 
 
+
+#def appointment(request):
+#    if request.method=='POST':
+#        
+#        form=AppointmentForm(request.POST)
+#        if form.is_valid():
+#            print('we are valid')
+#            appointment=form.save(commit=False)
+#            appointment.user=request.user
+#            appointment.save()
+#            
+#    else:
+#        form=AppointmentForm()
+#    return render(request,'appointment.html',{'form':form})
+
+'''
 def appointment(request):
     if request.method == 'POST':
         print('yes')
@@ -33,7 +47,7 @@ def appointment(request):
     doctor=Doctor.objects.all()
     return render(request, 'appointment.html',{'doctor':doctor})
 
-
+'''
 
 def register(request):
     if request.method=='POST':
@@ -41,7 +55,7 @@ def register(request):
         if form.is_valid():
             user=form.save()
             login(request, user,backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('homepage')
+            return redirect('profile')
     else:
         form= NewUserForm()
     return render(request,'register.html', {'form':form})
@@ -61,7 +75,7 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('appointment')
+                return redirect('profile')
             else:
                 messages.error(request, 'Invalid username or password')
         else:
@@ -80,7 +94,7 @@ def login_home(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'successfully logged')
-            return redirect('appointment')
+            return redirect('profile')
         else:
             messages.error(request, 'Invalid username or password')
        
@@ -132,3 +146,62 @@ def password_reset_request(request):
 
 
 
+def updateAppointment(request,id=0):
+    if request.method == "POST":
+        if id==0:
+            form = AppointmentForm(request.POST)
+        else:
+            obj=Appointment.objects.get(pk=id)
+            form=AppointmentForm(request.POST,instance=obj)
+
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.user = request.user
+            appointment.save()    
+            return redirect('homepage')
+            
+    else:
+        if id==0:
+            form = AppointmentForm()
+            return render(request, 'appointment.html', {'form':form})
+        else:
+            obj=Appointment.objects.get(pk=id)
+            form=AppointmentForm(instance=obj)
+            return render(request,'appointment.html', {'form':form})
+
+
+def delAppointment(request,id=id):
+    obj=Appointment.objects.get(pk=id)
+    obj.delete()
+    return redirect(profile)
+
+
+
+
+def profile(request):
+    if request.method=='POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            print('we reach to valid form ')
+            uform = u_form.save(commit=False)
+            pform = p_form.save(commit=False)
+            uform.save()
+            pform.save()
+            messages.success(request, f'your account has been updated!')
+            return redirect('profile')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    obj=Appointment.objects.all()
+    
+    context = {
+            'u_form':u_form,
+            'p_form':p_form,
+            'appointment':obj
+        
+        }
+    return render(request,'profile.html', context)
+
+    
