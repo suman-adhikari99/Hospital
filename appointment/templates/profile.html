@@ -21,12 +21,15 @@
 	<div class="row">
         <div class="profile-header-container">   
     		<div class="profile-header-img">
-                <img class="img-circle" src="{{user.profile.image.url}} " width=200" height="200">
+                <img class="img-circle" src="{{user.profile.image.url}} " width=200" height="300">
                 <div class="rank-label-container">
                     <br>
                     <span class="label label-default rank-label">{{user.username}}</span><br>
                     <p class="text-secondary container">{{user.email}}</p>
+                    
+                   
                 </div>
+
             </div>
            
             <a href="/logout">logout</a>
@@ -37,7 +40,9 @@
             {{ p_form | crispy }} 
           <button class="btn btn-primary" type="submit">Update</button>  
         </form> 
+        <a href="/update/0">NEW APOINTMENT</a>
 	</div>
+    {% if appointment %}
     <h1>YOUR APPOINTMENT ARE</h1>
    
     {% for appointment in appointment%}
@@ -49,8 +54,10 @@
     <p><a href="/delete/{{appointment.id}}">Delete</a></p>
    <br>
    {% endfor %}
+   {%endif%}
+   
 </div>
-<a href="/update/0">NEW APOINTMENT</a>
+
 
 
 

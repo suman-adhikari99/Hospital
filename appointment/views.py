@@ -194,7 +194,7 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
-    obj=Appointment.objects.all()
+    obj=Appointment.objects.filter(user=request.user)
     
     context = {
             'u_form':u_form,
