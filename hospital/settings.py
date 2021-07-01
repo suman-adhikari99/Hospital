@@ -89,7 +89,9 @@ LOGIN_REDIRECT_URL = 'home'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR,'templates'),
+                os.path.join(BASE_DIR,'reactapp/build')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -162,6 +164,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # added manually
+STATICFILES_DIRS = [os.path.join(BASE_DIR,'reactapp/build/static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT =os.path.join(BASE_DIR, 'media')
 MEDIA_URL ='/media/'
@@ -178,4 +181,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'adhikarisuman372@gmail.com'
-EMAIL_HOST_PASSWORD = 'Susma@147'
+EMAIL_HOST_PASSWORD = 'real password'
