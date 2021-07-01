@@ -26,7 +26,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('appointment.urls')),
-    path('react/',TemplateView.as_view(template_name='index.html')),
+    path('react/',TemplateView.as_view(template_name='index.html')),# for react
     #path('', core_views.HomeView.as_view(), name='home'),
 
 
