@@ -15,7 +15,7 @@ class AppointmentForm(forms.ModelForm):
     time = forms.TimeField(widget=forms.TimeInput(attrs={'type':'time'}))
     class Meta:
         model = Appointment
-        fields = ('user','date','patient_name','doctor','time')
+        fields = ('user','date','patient_name','doctor','time','payment_method')
 
 class NewUserForm(UserCreationForm):
     email= forms.EmailField()
@@ -52,8 +52,4 @@ class ProfileUpdateForm(forms.ModelForm):
         fields=['image']
 
 
-'''
-  
 
-
-'''

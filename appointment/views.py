@@ -1,3 +1,6 @@
+import json
+
+from reportlab.lib.utils import prev_this_next
 from appointment.models import Appointment, Doctor, Profile
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -6,8 +9,6 @@ from django.contrib import messages
 from .forms import  AppointmentForm, NewUserForm, UserUpdateForm, ProfileUpdateForm, UserUpdateForm
 
 from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic import TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
 
@@ -15,6 +16,93 @@ from django.contrib import messages
 
 # Create your views here.
 
+
+import requests
+def covid(request):
+    data= True
+    result=None
+    countries=None
+    while(data):
+        try:
+            result= requests.get('http://api.covid19api.com/summary') 
+            #print(result.json()['Global'])
+            #print(type(result))
+            covid_data=result.json()['Global'] 
+            json=result.json()  
+            countries=json['Countries']
+            #print(countries)
+            data=False
+        except:
+            data=True
+        data_of_nepal={}
+        for c in countries:
+            if c['Country']=="Nepal":
+                #print(c['TotalRecovered'])
+                data_of_nepal={
+                    'TotalRecovered':c['TotalRecovered'],
+                    'NewConfirmed':c['NewConfirmed'],
+                    'TotalConfirmed':c[ 'TotalConfirmed'],
+                    'NewDeaths':c['NewDeaths'],
+                    'TotalDeaths':c['TotalDeaths'],
+                    'NewRecovered':c['NewRecovered']
+
+                }
+                break
+        #print(type(data_of_nepal))
+        #print(data_of_nepal)
+        print(data_of_nepal['NewConfirmed'])
+    return render(request,"covid.html", {'global':covid_data,
+                                         'countries':countries, 
+                                         'data_of_nepal':data_of_nepal  })
+
+
+
+from django.http import FileResponse
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
+
+def appointment_pdf(request):
+    #create bytestream buffer
+    buf=BytesIO()
+    #create a canvas
+    c= canvas.Canvas(buf, pagesize=letter, bottomup=0)
+    #create text obj
+    textob= c.beginText()
+    textob.setTextOrigin(inch,inch)
+    textob.setFont("Helvetica",14)
+    #add some lines of text
+    #lines=[
+    #    'this is line 1',
+    #    'this is line 2'
+    #]
+    lines=[]
+    appoint=Doctor.objects.all()
+    print(appoint)
+    for appoints in appoint:
+        lines.append(appoints.name)
+        lines.append(appoints.department)
+        lines.append(appoints.address)
+        lines.append("________________________")
+
+        #lines.append(appoints.user)
+        #lines.append(appoints.date)
+        #lines.append(appoints.patient_name)
+        #lines.append(appoints.doctor)
+        #lines.append(appoints.time)
+        #lines.append(appoints.payment_method)
+    for line in lines:
+        textob.textLine(line)
+    #finish up
+    c.drawText(textob)
+    c.showPage()
+    c.save()
+    buf.seek(0)
+    #return something
+    return FileResponse(buf,as_attachment=True,filename='appointment.pdf')
+    
 
 
 #def appointment(request):
@@ -157,9 +245,12 @@ def updateAppointment(request,id=0):
         if form.is_valid():
             appointment = form.save(commit=False)
             appointment.user = request.user
-            appointment.save()    
-            return redirect('homepage')
-            
+            appointment.save()  
+            payment_method= appointment.payment_method
+            id = appointment.id
+            print(id)
+            print(type(payment_method) )
+            return render(request, 'esewa.html',{'id':id})
     else:
         if id==0:
             form = AppointmentForm()
@@ -168,6 +259,54 @@ def updateAppointment(request,id=0):
             obj=Appointment.objects.get(pk=id)
             form=AppointmentForm(instance=obj)
             return render(request,'appointment.html', {'form':form})
+
+import requests as req
+def EsewaVerifyView(request):
+    if request.method =="GET" :
+        amt = request.GET.get("amt")
+        refId = request.GET.get("refId")
+        oid= request.GET.get("pid")
+        print(amt,refId,oid)
+        url = "https://uat.esewa.com.np/epay/transrec"
+        d = {
+            'amt': amt,
+            'scd': 'epay_payment',
+            'rid': refId,
+            'pid': oid,
+        }
+        return redirect('homepage')
+
+
+
+'''
+class EsewaVerifyView(View):
+    def get(self, request, *args, **kwargs):
+        import xml.etree.ElementTree as ET
+        oid = request.GET.get("oid")
+        amt = request.GET.get("amt")
+        refId = request.GET.get("refId")
+
+        url = "https://uat.esewa.com.np/epay/transrec"
+        d = {
+            'amt': amt,
+            'scd': 'epay_payment',
+            'rid': refId,
+            'pid': oid,
+        }
+        resp = requests.post(url, d)
+        root = ET.fromstring(resp.content)
+        status = root[0].text.strip()
+
+        order_id = oid.split("_")[1]
+        order_obj = Order.objects.get(id=order_id)
+        if status == "Success":
+            order_obj.payment_completed = True
+            order_obj.save()
+            return redirect("/")
+        else:
+
+            return redirect("/esewa-request/?o_id="+order_id)
+'''
 
 
 def delAppointment(request,id=id):
@@ -205,3 +344,29 @@ def profile(request):
     return render(request,'profile.html', context)
 
     
+
+from django.http import HttpResponse
+from .resources import DoctorResource
+def export(request):
+    doctor_resource = DoctorResource()
+    dataset = doctor_resource.export()
+    response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="doctor.xls"'
+    return response
+
+
+from tablib import Dataset
+
+def simple_upload(request):
+    if request.method == 'POST':
+        doctor_resource = DoctorResource()
+        dataset = Dataset()
+        new_doctors = request.FILES['myfile']
+
+        imported_data = dataset.load(new_doctors.read())
+        result = doctor_resource.import_data(dataset, dry_run=True)  # Test the data import
+
+        if not result.has_errors():
+            doctor_resource.import_data(dataset, dry_run=False)  # Actually import now
+
+    return render(request, 'import.html')

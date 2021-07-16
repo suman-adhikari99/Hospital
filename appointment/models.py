@@ -21,11 +21,21 @@ class Doctor(models.Model):
 
 
 class Appointment(models.Model):
+    METHOD = (
+    ("Cash On Delivery", "Cash On Delivery"),
+    ("Khalti", "Khalti"),
+    ("Esewa", "Esewa"),)
+
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateField()
     patient_name = models.CharField(max_length=120)
     doctor= models.ForeignKey(Doctor,on_delete=models.CASCADE)
     time = models.TimeField()
+    payment_method = models.CharField( max_length=20, choices=METHOD, default="Cash On Delivery")
+    payment_completed = models.BooleanField(
+        default=False, null=True, blank=True)
+
     def __str__(self):
         return '{} ({})'.format(self.user,self.doctor)
 

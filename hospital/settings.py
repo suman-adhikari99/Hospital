@@ -48,8 +48,10 @@ INSTALLED_APPS = [
     'appointment.apps.AppointmentConfig',
     'crispy_forms',
     'social_django',
+    'import_export',
     
 ]
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 SITE_ID = 1
 
 SOCIAL_AUTH_GITHUB_KEY = '90005afb0b3dc6ff05b9'
@@ -162,7 +164,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # added manually
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
+
 MEDIA_ROOT =os.path.join(BASE_DIR, 'media')
 MEDIA_URL ='/media/'
 

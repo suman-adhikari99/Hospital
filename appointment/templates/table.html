@@ -1,0 +1,25 @@
+<div id='count' class="table">
+    <table class="table-light">
+      <thead>
+        <tr>
+          <th>Sno</th>
+          <th>Country</th>
+          <th>Total Confirmed</th>
+          <th>Total Deaths</th>
+          <th>Total Recovered</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for c in countries%}
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td>{{c.Country}}</td>
+          <td>{{c.TotalConfirmed}}</td>
+          <td>{{c.TotalDeaths}}</td>
+          <td>{{c.TotalRecovered}}</td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table> 
+    </div>    
+  
