@@ -30,11 +30,12 @@ def covid(request):
             covid_data=result.json()['Global'] 
             json=result.json()  
             countries=json['Countries']
-            #print(countries)
+            print(countries)
             data=False
         except:
             data=True
         data_of_nepal={}
+
         for c in countries:
             if c['Country']=="Nepal":
                 #print(c['TotalRecovered'])
@@ -370,3 +371,20 @@ def simple_upload(request):
             doctor_resource.import_data(dataset, dry_run=False)  # Actually import now
 
     return render(request, 'import.html')
+
+
+
+
+########    ###these are for chat system############################
+def index(request):
+    return render(request,'index.html')
+
+def logins(request):
+    return render(request,'logins.html')
+    
+
+def signup(request):
+    return render(request,'signup.html')
+
+def chat(request):
+    return render(request,'chat.html')

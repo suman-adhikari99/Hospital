@@ -4,8 +4,12 @@ from .models import Appointment, Doctor,Profile
 admin.site.register(Appointment)
 admin.site.register(Profile)
 
+
+
+
 from import_export.admin import ImportExportModelAdmin
 
 @admin.register(Doctor)
 class DoctorAdmin(ImportExportModelAdmin):
+
     pass

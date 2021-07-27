@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title%}p-chat {% endblock title%}
+{% block body %} 
+<div class="container d-flex justify-contetn-between flex-column " style="height: 100vh;">
+    <h1>P-chat</h1>
+    <div class="chat flex-column" style="overflow-y: scroll;" style="height: 70%;">
+        <div class="message flex-column d-flex">
+        <h5 class="username">username</h5>
+        <h6 class="message-chat">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, unde cum.</h6>
+        </div>
+
+        <div class="message flex-column d-flex">
+            <h5 class="username">username</h5>
+            <h6 class="message-chat">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, unde cum.</h6>
+            </div>
+
+            <div class="message flex-column d-flex">
+                <h5 class="username">username</h5>
+                <h6 class="message-chat">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, unde cum.</h6>
+                </div>
+
+                <div class="message flex-column d-flex">
+                    <h5 class="username">username</h5>
+                    <h6 class="message-chat">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, unde cum.</h6>
+                    </div>
+
+                    <div class="message flex-column d-flex">
+                        <h5 class="username">username</h5>
+                        <h6 class="message-chat">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, unde cum.</h6>
+                        </div>
+                        <div class="message flex-column d-flex">
+                            <h5 class="username">username</h5>
+                            <h6 class="message-chat">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, unde cum.</h6>
+                            </div>
+    </div>
+    <input type="text" placeholder="message" class="form-control">
+    <button class="btn btn-outline-success">send</button>
+</div>
+{% endblock body %}
+
+{% block script%} 
+<script>
+    let con = false;
+    const ws= new WebSocket('ws://127.0.0.1:8000/ws/chat/');
+    ws.addEventListener('open',()=>
+    console.log("open connection"))
+    ws.send(JSON.stringify({
+        'command':'join',
+        'groupname':'publicchat'
+    }))
+</script>
+{% endblock script%}

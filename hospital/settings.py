@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 #https://github.com/settings/applications/new
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'social_django',
     'import_export',
+    
     
 ]
 IMPORT_EXPORT_USE_TRANSACTIONS = True
@@ -108,7 +110,17 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'hospital.wsgi.application'
+#WSGI_APPLICATION = 'hospital.wsgi.application'
+ASGI_APPLICATION = 'hospital.asgi.application'
+#install this also:https://www.memurai.com/get-memurai
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}
 
 
 # Database
@@ -184,5 +196,5 @@ EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'adhikarisuman372@gmail.com'
-EMAIL_HOST_PASSWORD = 'Susma@147'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
