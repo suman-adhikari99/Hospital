@@ -19,6 +19,21 @@ class HomeView(LoginRequiredMixin, TemplateView):
     template_name = "home.html" 
 
 def appointment(request):
+    if request.method=='POST':
+        
+        form=AppointmentForm(request.POST)
+        if form.is_valid():
+            print('we are valid')
+            appointment=form.save(commit=False)
+            appointment.user=request.user
+            appointment.save()
+            
+   
+    appointmentform=AppointmentForm()
+    return render(request,'appointment.html', {'form':appointmentform})
+
+'''
+def appointment(request):
     if request.method == 'POST':
         print('yes')
         date = request.POST['date']
@@ -33,7 +48,7 @@ def appointment(request):
     doctor=Doctor.objects.all()
     return render(request, 'appointment.html',{'doctor':doctor})
 
-
+'''
 
 def register(request):
     if request.method=='POST':
@@ -130,5 +145,16 @@ def password_reset_request(request):
     password_reset_from= PasswordResetForm()
     return render(request=request, template_name='password_reset.html',context={'password_reset_form':password_reset_from})
 
+def dashboard(request):
+    appoint=Appointment.objects.all()
+    current_user=request.user
+    doctor=Doctor.objects.all()
 
 
+    context={
+        'appointment':appoint,
+        'current_user':current_user,
+        'doctor':doctor,
+
+    }
+    return render(request,'dashboard.html',context=context)

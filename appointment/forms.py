@@ -9,6 +9,10 @@ from .models import Appointment,Doctor
 
 # Create Appointment form here
 class AppointmentForm(forms.ModelForm):
+    date = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+    patient_name = forms.CharField(max_length=120)
+    # doctor = forms.CharField(max_length=120)
+    time = forms.TimeField(widget=forms.TimeInput(attrs={'type':'time'}))
     class Meta:
         model = Appointment
         fields = ('user','date','patient_name','doctor','time')
@@ -34,5 +38,8 @@ class NewUserForm(UserCreationForm):
     def __unicode__(self):
         return 
 
+'''
+  
 
 
+'''
