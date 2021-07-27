@@ -122,6 +122,21 @@ def appointment_pdf(request):
 
 '''
 def appointment(request):
+    if request.method=='POST':
+        
+        form=AppointmentForm(request.POST)
+        if form.is_valid():
+            print('we are valid')
+            appointment=form.save(commit=False)
+            appointment.user=request.user
+            appointment.save()
+            
+   
+    appointmentform=AppointmentForm()
+    return render(request,'appointment.html', {'form':appointmentform})
+
+'''
+def appointment(request):
     if request.method == 'POST':
         print('yes')
         date = request.POST['date']
@@ -233,8 +248,21 @@ def password_reset_request(request):
     password_reset_from= PasswordResetForm()
     return render(request=request, template_name='password_reset.html',context={'password_reset_form':password_reset_from})
 
+def dashboard(request):
+    appoint=Appointment.objects.all()
+    current_user=request.user
+    doctor=Doctor.objects.all()
 
 
+    context={
+        'appointment':appoint,
+        'current_user':current_user,
+        'doctor':doctor,
+
+<<<<<<< HEAD
+    }
+    return render(request,'dashboard.html',context=context)
+=======
 def updateAppointment(request,id=0):
     if request.method == "POST":
         if id==0:
@@ -334,7 +362,11 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
+<<<<<<< HEAD
     obj=Appointment.objects.filter(user=request.user)
+=======
+    obj=Appointment.objects.filter(user=request.user)  ## this line will solve your appointment problem in profile
+>>>>>>> 1a14cea93dc8df39a6fb25a106bb70fe31b07578
     
     context = {
             'u_form':u_form,
@@ -345,6 +377,7 @@ def profile(request):
     return render(request,'profile.html', context)
 
     
+<<<<<<< HEAD
 
 from django.http import HttpResponse
 from .resources import DoctorResource
@@ -388,3 +421,6 @@ def signup(request):
 
 def chat(request):
     return render(request,'chat.html')
+=======
+>>>>>>> f89d409b3d2a4ac6e66b245991fb6c412ab8b9dd
+>>>>>>> 1a14cea93dc8df39a6fb25a106bb70fe31b07578

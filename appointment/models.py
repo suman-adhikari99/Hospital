@@ -39,9 +39,12 @@ class Appointment(models.Model):
         return '{} ({})'.format(self.user,self.doctor)
 
 
+<<<<<<< HEAD
+=======
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.png', upload_to='profile_pics')
+>>>>>>> f89d409b3d2a4ac6e66b245991fb6c412ab8b9dd
 
     def __str__(self) :
         return f'{self.user.username}Profile'
