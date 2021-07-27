@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 """hospital URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -39,8 +39,8 @@ urlpatterns = [
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root =settings.MEDIA_ROOT)
-||||||| empty tree
-=======
+
+
 """hospital URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -81,4 +81,4 @@ urlpatterns = [
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root =settings.MEDIA_ROOT)
->>>>>>> 1836417267539347b726605beaf2198e24b21b09
+

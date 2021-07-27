@@ -120,7 +120,7 @@ def appointment_pdf(request):
 #        form=AppointmentForm()
 #    return render(request,'appointment.html',{'form':form})
 
-'''
+
 def appointment(request):
     if request.method=='POST':
         
@@ -259,10 +259,10 @@ def dashboard(request):
         'current_user':current_user,
         'doctor':doctor,
 
-<<<<<<< HEAD
+
     }
     return render(request,'dashboard.html',context=context)
-=======
+
 def updateAppointment(request,id=0):
     if request.method == "POST":
         if id==0:
@@ -335,8 +335,8 @@ class EsewaVerifyView(View):
         else:
 
             return redirect("/esewa-request/?o_id="+order_id)
-'''
 
+'''
 
 def delAppointment(request,id=id):
     obj=Appointment.objects.get(pk=id)
@@ -362,11 +362,11 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
-<<<<<<< HEAD
+
     obj=Appointment.objects.filter(user=request.user)
-=======
+
     obj=Appointment.objects.filter(user=request.user)  ## this line will solve your appointment problem in profile
->>>>>>> 1a14cea93dc8df39a6fb25a106bb70fe31b07578
+
     
     context = {
             'u_form':u_form,
@@ -377,7 +377,7 @@ def profile(request):
     return render(request,'profile.html', context)
 
     
-<<<<<<< HEAD
+
 
 from django.http import HttpResponse
 from .resources import DoctorResource
@@ -421,6 +421,6 @@ def signup(request):
 
 def chat(request):
     return render(request,'chat.html')
-=======
->>>>>>> f89d409b3d2a4ac6e66b245991fb6c412ab8b9dd
->>>>>>> 1a14cea93dc8df39a6fb25a106bb70fe31b07578
+
+
+

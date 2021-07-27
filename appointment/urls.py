@@ -10,7 +10,7 @@ urlpatterns = [
     path('covid/',views.covid),
     path('register_appointment/', views.updateAppointment, name='appointment'),
     path("esewa-verify/", views.EsewaVerifyView, name="esewaverify"),
-    path("khalti-request/", KhaltiRequestView.as_view(), name="khaltirequest"),
+
     path('register/', views.register, name='register'),
     path('', views.homepage, name='homepage'),
     path('login/', views.login_request, name='login'),

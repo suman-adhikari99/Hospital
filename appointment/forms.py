@@ -38,12 +38,12 @@ class NewUserForm(UserCreationForm):
     def __unicode__(self):
         return 
 
-'''
+
   
 
 
-<<<<<<< HEAD
-=======
+
+
 class UserUpdateForm(forms.ModelForm):
     email= forms.EmailField()
     class Meta:
@@ -57,9 +57,8 @@ class ProfileUpdateForm(forms.ModelForm):
 
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> f89d409b3d2a4ac6e66b245991fb6c412ab8b9dd
-'''
->>>>>>> 1a14cea93dc8df39a6fb25a106bb70fe31b07578
+
+
+
+
