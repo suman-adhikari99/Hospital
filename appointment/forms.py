@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import fields
 
-from .models import Appointment,Doctor
+from .models import Appointment,Doctor, Profile
 
 # Create your forms here.
 
@@ -42,4 +42,23 @@ class NewUserForm(UserCreationForm):
   
 
 
+<<<<<<< HEAD
+=======
+class UserUpdateForm(forms.ModelForm):
+    email= forms.EmailField()
+    class Meta:
+        model = User
+        fields=['username','email']
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model=Profile
+        fields=['image']
+
+
+'''
+  
+
+
+>>>>>>> f89d409b3d2a4ac6e66b245991fb6c412ab8b9dd
 '''

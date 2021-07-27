@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!--Bootstrap CSS-->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </head>
+    <body>
+        
+    
+    {% load crispy_forms_tags %} 
+ 
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+	<div class="row">
+        <div class="profile-header-container">   
+    		<div class="profile-header-img">
+                <img class="img-circle" src="{{user.profile.image.url}} " width=200" height="300">
+                <div class="rank-label-container">
+                    <br>
+                    <span class="label label-default rank-label">{{user.username}}</span><br>
+                    <p class="text-secondary container">{{user.email}}</p>
+                    
+                   
+                </div>
+
+            </div>
+           
+            <a href="/logout">logout</a>
+        </div>
+        <form action="" method="POST" enctype="multipart/form-data">      
+            {% csrf_token %}
+            {{ u_form | crispy }}  
+            {{ p_form | crispy }} 
+          <button class="btn btn-primary" type="submit">Update</button>  
+        </form> 
+        <a href="/update/0">NEW APOINTMENT</a>
+	</div>
+    {% if appointment %}
+    <h1>YOUR APPOINTMENT ARE</h1>
+   
+    {% for appointment in appointment%}
+    <h4> Appointment{{appointment.id}}</h4>
+    <p>patient_name:{{appointment.patient_name}}</p>
+    <p>DOCTOR_NAME:{{appointment.doctor}}</p>
+    
+    <p><a href="/update/{{appointment.id}}">Update</a></p>
+    <p><a href="/delete/{{appointment.id}}">Delete</a></p>
+   <br>
+   {% endfor %}
+   {%endif%}
+   
+</div>
+
+
+
+
+
+
+
+
+<style>
+    body, html {
+        height: 100%;
+        background-repeat: no-repeat;
+       
+    }
+    /**
+     * Profile image component
+     */
+    .profile-header-container{
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .profile-header-img {
+        padding: 54px;
+    }
+    
+    .profile-header-img > img.img-circle {
+        width: 200px;
+        height: 200px;
+        border: 2px solid #51D2B7;
+    }
+    
+    .profile-header {
+        margin-top: 43px;
+    }
+    
+    /**
+     * Ranking component
+     */
+    .rank-label-container {
+        margin-top: -19px;
+        /* z-index: 1000; */
+        text-align: center;
+    }
+    
+    .label.label-default.rank-label {
+      
+        padding: 5px 10px 5px 10px;
+        border-radius: 27px;
+    }
+</style>
+
+    </body>
+    </html>

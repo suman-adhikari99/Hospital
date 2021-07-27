@@ -3,6 +3,7 @@
 from django.db import models
 from django.conf import settings
 from django.db.models.deletion import CASCADE
+from django.contrib.auth.models import User
 
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -29,7 +30,15 @@ class Appointment(models.Model):
         return '{} ({})'.format(self.user,self.doctor)
 
 
+<<<<<<< HEAD
+=======
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(default='default.png', upload_to='profile_pics')
+>>>>>>> f89d409b3d2a4ac6e66b245991fb6c412ab8b9dd
 
+    def __str__(self) :
+        return f'{self.user.username}Profile'
 
 
 
